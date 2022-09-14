@@ -15,7 +15,7 @@ email :{
     lowercase : true
 },
 mobile :{
-    type : String,
+    type : Number,
     required : "Mobile Number is required",
     unique : true
 },

@@ -18,10 +18,10 @@ const createIntern= async (req,res)=>{
      
      if(typeof(email)!=="string") return res.status(400).send({status:false, msg: "please input correct email"})
 
- if(!email) return res.status(400).send({status:false, msg:"please input email"})
- let emaiId = await internModel.findOne({email:data.email})
+    if(!email) return res.status(400).send({status:false, msg:"please input email"})
+    let emaiId = await internModel.findOne({email:data.email})
 
- if(emaiId) return res.status(401).send({status: false,msg: "please input another e-mailId" })
+    if(emaiId) return res.status(401).send({status: false,msg: "please input another e-mailId" })
 
     if(!mobile) return res.status(400).send({status:false, msg: "please input mobile number"})
     if(typeof(mobile)!== Number)  return res.status(400).send({status:false, msg:"please input valid number"})
@@ -32,14 +32,14 @@ const createIntern= async (req,res)=>{
     
     
     //  if()
-        
-  let collegeDetails= await collegeModel.findOne({collegeName:data.collegeName})
+      // data.collegeName=data.collegeName.trim().toLowerCase()    
+    let collegeDetails= await collegeModel.findOne({name:data.collegeName})
 
     let collegeId= collegeDetails._id.toString()
 
-  const myData = {name,mobile,collegeId,email} 
- let savedata= await internModel.create(myData)
-  res.status(200).send({status:true, data:savedata})
+    const myData = {name,mobile,collegeId,email} 
+    let savedata= await internModel.create(myData)
+    res.status(200).send({status:true, data:savedata})
 }
   
   catch (err){ 

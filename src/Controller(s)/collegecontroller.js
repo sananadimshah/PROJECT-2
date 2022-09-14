@@ -1,4 +1,4 @@
-const collegeModel = require("../model(S)/CollageModel");
+const collegeModel = require("../model(S)/collegeModel");
 
 const CreateCollege = async function (req, res) {
   try {
@@ -41,6 +41,7 @@ const CreateCollege = async function (req, res) {
     if (typeof logoLink !== "string" || logoLink.length == 0) {
       res.status(400).send({ staues: false, msg: "Invalid logoLink" });
     }
+
     //====================CreateCollege========================//
     let savedata = await collegeModel.create(data);
     res.status(201).send({ status: true, data: savedata });

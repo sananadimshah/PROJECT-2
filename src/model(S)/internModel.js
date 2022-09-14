@@ -6,22 +6,25 @@ const internSchema = new mongoose.Schema ({
 name :{
     type : String,
     required : "Name is required",
-    lowercase : true
+    lowercase : true,
+    trim: true
 },
 email :{
     type :String,
     required : "Email is required",
     unique : true,
-    lowercase : true
+    lowercase : true,
+    trim: true
 },
 mobile :{
     type : Number,
     required : "Mobile Number is required",
-    unique : true
+    unique : true,
 },
 collegeId : {
     type : ObjectId,
-    ref : "College"
+    ref : "College",
+    trim: true
 },
 isDeleted : {
     type : Boolean,

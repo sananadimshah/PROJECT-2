@@ -10,7 +10,7 @@ const CreateCollege = async function (req, res) {
       res.status(400)
         .send({ status: false, msg: "Please provide College details" });
     }
-//============if data is not present ====================//
+//============if Data is not present ====================//
     if (!name) {
       res.status(400).send({ status: false, msg: "Please provide Name" });
     }
@@ -24,14 +24,14 @@ const CreateCollege = async function (req, res) {
         .send({ status: false, msg: "This name is already taken" });
       return;
     }
-    //=============data is present or not=====================//
+    //=============Data is present or not=====================//
     if (!fullName) {
       res.status(400).send({ status: false, msg: "Please provide fullName" });
     }
     if (!logoLink) {
       res.status(400).send({ status: false, msg: "Please provide logoLink" });
     }
-    //===============checking valid or not=================//
+    //===============Checking valid or not=================//
     if (typeof name !== "string" || name.length == 0) {
       res.status(400).send({ staues: false, msg: "Invalid Name" });
     }

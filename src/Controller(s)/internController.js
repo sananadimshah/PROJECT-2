@@ -34,6 +34,10 @@ const createIntern= async (req,res)=>{
     //  if()
       // data.collegeName=data.collegeName.trim().toLowerCase()    
     let collegeDetails= await collegeModel.findOne({name:data.collegeName})
+    if(!collegeDetails){
+      res.status(400).send({status:false, msg:"NO such college"})
+      return
+    }
 
     let collegeId= collegeDetails._id.toString()
 
@@ -47,6 +51,9 @@ const createIntern= async (req,res)=>{
   }
   }
    
+
+
+  
 
 
 

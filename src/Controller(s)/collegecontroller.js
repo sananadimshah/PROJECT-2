@@ -1,7 +1,7 @@
-const collegeModel = require("../model(S)/CollageModel")
+const collegeModel = require("../model(S)/collegeModel")
 
 
-const CreateCollege = async function(req,res){
+const createCollege = async function(req,res){
 let {name,fullName,logoLink} = req.body
 if(Object.keys(req.body).length==0){
     res.status(400).send({status : false , msg : "Please provide College details"})
@@ -25,5 +25,5 @@ res.status(201).send({status : true , data : savedata})
 
 
 }
-module.exports={CreateCollege}
+module.exports={createCollege}
 

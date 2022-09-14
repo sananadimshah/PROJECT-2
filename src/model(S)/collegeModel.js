@@ -18,8 +18,8 @@ const CollegeSchema = new mongoose.Schema({
  isDeleted : {
     type : Boolean,
     default : false,
- },
-})
+ }
+}, {timestamps:true})
 module.exports = mongoose.model("College", CollegeSchema)
 
-// { name: { mandatory, unique, example iith }, fullName: { mandatory, example `Indian Institute of Technology, Hyderabad` }, logoLink: { mandatory }, isDeleted: { boolean, default: false } }
+//{ name: { mandatory, unique, example iith }, fullName: { mandatory, example `Indian Institute of Technology, Hyderabad` }, logoLink: { mandatory }, isDeleted: { boolean, default: false } }

@@ -1,7 +1,6 @@
 const collegeModel = require("../models/collegeModel");
 const internModel = require("../models/internModel")
-const urlRegex =
-/(https?:\/\/.*\.(?:png|jpg))/;
+const urlRegex = /(https?:\/\/.*\.(?:png|jpg))/;
 
 const CreateCollege = async function (req, res) {
   try {
@@ -13,10 +12,10 @@ const CreateCollege = async function (req, res) {
     if (Object.keys(req.body).length == 0) {
       res.status(400)
         .send({ status: false, msg: "Please provide College details" });
+        return
     }
 
-//============if Data is not present ====================//
-console.log(name)
+//============validation on name ====================//
 
     if (!name) {
       res.status(400).send({ status: false, msg: "Please provide Name" });
@@ -24,13 +23,12 @@ console.log(name)
     }
    
     if(typeof name !== "string" || name.trim().length == 0) { 
-      res.status(400).send({ status: false, msg: "Invalid Name" });
+      res.status(400).send({ status: false, msg:  "Name must contain valid data / String only" });
       return
     }
 
-//=============cheaking validName=====================//
-    let validName = await collegeModel.find({ name: data.name });
-    console.log(validName);
+//=============check for name is already taken or not=====================//
+    let validName = await collegeModel.find({ name });    /// object Shorthand property
 
     if (validName.length !== 0) {
       res
@@ -39,24 +37,24 @@ console.log(name)
       return;
     }
 
-    //=============Data is present or not=====================//
+    //=============validation on fullName=====================//
     if (!fullName) {
       res.status(400).send({ status: false, msg: "Please provide fullName" });
       return
     }
     if (typeof fullName !== "string" || fullName.trim().length == 0) {
-      res.status(400).send({ staues: false, msg: "Invalid fullName" });
+      res.status(400).send({ staues: false, msg:  "fullName must contain valid data / String only" });
       return
     }
 
-
+    //=============validation on logoLink=====================//
 
     if (!logoLink) {
       res.status(400).send({ status: false, msg: "Please provide logoLink" });
       return
     }
     if (typeof logoLink !== "string" || logoLink.trim().length == 0) {
-      res.status(400).send({ staues: false, msg: "Invalid logoLink" });
+      res.status(400).send({ staues: false, msg:  "logoLink must contain valid data / String only" });
       return
     }
     logoLink=logoLink.trim()
@@ -64,15 +62,14 @@ console.log(name)
       res.status(400).send({status:false, msg:"Ivalid logoLink"})
       return
     }
-
-    //===============Checking value of string=================//
-   
-   
   
     //====================CreateCollege========================//
     let savedata = await collegeModel.create(data);
+
     res.status(201).send({ status: true, data: savedata });
-  } catch (err) {
+
+  } 
+  catch (err) {
     res.status(500).send({ status: false, msg: err.message });
   }
 };
@@ -85,7 +82,7 @@ const collegeDetails = async function(req,res){
      if(Object.keys(req.query).length==0){
       res.status(400).send({status:false,msg:"Pls give query param"})
       return
-    }
+     }
 
 
      /// Check for valid query Params
@@ -93,11 +90,11 @@ const collegeDetails = async function(req,res){
       for(let key in req.query){
           if(!reqParamArray.includes(key)){
               res.status(400).send({status:false, msg:`query parameters can be only - ${reqParamArray.join(",")}`})
+              return
           }
       }
 
-    
-      
+
       /// Check for value given in queryParam
       if(req.query["collegeName"].length==0){
           res.status(400).send({status:false, msg:"Invalid queryParam value"})

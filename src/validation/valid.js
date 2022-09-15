@@ -23,7 +23,7 @@ const internValidation = async (req, res, next) => {
     if (typeof name !== "string" || name.trim().length==0) {
       return res
         .status(400)
-        .send({ status: false, msg: "Please Insert valid name" });
+        .send({ status: false, msg: "Name must contain valid data / String only" });
     }
 //=============================E-Mail validation==================================================================================================
 
@@ -35,25 +35,13 @@ const internValidation = async (req, res, next) => {
     if (typeof email !== "string" || name.trim().length==0 )
       return res
         .status(400)
-        .send({ status: false, msg: "Please Input Correct email" });
+        .send({ status: false, msg:  "email must contain valid data / String only" });
 
     //---------------------------Email Validation Thorugh REGEX--------------------------------------------------------------------------------- 
 
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email))
       return res.status(400).send({ status: false, msg: "Invalid Email Id" });
 
-    
- //------------------------DB call for Email ---------------------------------------------------------------------------------------      
-
-    let emaiId = await internModel.findOne({ email: data.email });
-
-    if (emaiId)
-      return res
-        .status(401)
-        .send({
-          status: false,
-          msg: " OH My Gosh !! This E-mail is Allready Exists, Please Input another E-mailId",
-        });
 
 
  //==================================Mobile Validation==============================================================================     
@@ -74,15 +62,6 @@ const internValidation = async (req, res, next) => {
        .status(400)
        .send({ status: false, msg: "Wrong Mobile Number" });
 
- //-------------------------DB Call for Mobile Number-------------------------------------------------------------------------------------       
-
-    let validMobileNo = await internModel.findOne({ mobile: data.mobile });
-    if (validMobileNo)
-      return res
-        .status(403)
-        .send({ status: false, msg: "DAMN !! BRO, This Mobile Number Allready Exists" });
-
-   
 
 //============== College Name validation===========================================================================================
     
@@ -90,6 +69,33 @@ const internValidation = async (req, res, next) => {
       return res
         .status(400)
         .send({ status: false, msg: "Please Input collegeName" });
+
+  if(typeof collegeName != "string" || collegeName.trim().length==0){
+    res.status(400).send({status:false, msg:"collegeName must contain valid data / String only"})
+    return
+  }
+
+
+ //------------------------DB call for Email ---------------------------------------------------------------------------------------      
+
+ let emaiId = await internModel.findOne({ email: data.email });
+
+ if (emaiId)
+   return res
+     .status(401)
+     .send({
+       status: false,
+       msg: `${email} is already taken`,
+     });
+
+
+//-------------------------DB Call for Mobile Number-------------------------------------------------------------------------------------       
+
+let validMobileNo = await internModel.findOne({ mobile: data.mobile });
+if (validMobileNo)
+  return res
+    .status(403)
+    .send({ status: false, msg: `${mobile} number is already taken` });
 
     next();
   } 

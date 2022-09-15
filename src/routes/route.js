@@ -10,5 +10,6 @@ router.get("/test", function(req,res){
 
 router.post("/functionup/colleges",collegeController.CreateCollege)
 router.post("/functionup/interns",internController.createIntern)
+router.get("functionup/collegeDetails",internController.getCollegeDetail)
 
 module.exports=router

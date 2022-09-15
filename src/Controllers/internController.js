@@ -9,7 +9,8 @@ const createIntern = async (req, res) => {
     let { name, email, mobile, collegeName } = data;
 //=================== DB Call ========================================================================================================
   // Check for collegeName is valid or not
-    let collegeDetails = await collegeModel.findOne({ name: collegeName });
+    //data = { name, email, mobile, collegeName }
+    let collegeDetails = await collegeModel.findOne({ name:collegeName });
     if (!collegeDetails) {
       return res.status(400).send({ status: false, msg: "NO such college" });
     }

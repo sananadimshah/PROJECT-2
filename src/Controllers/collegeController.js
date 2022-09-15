@@ -92,6 +92,7 @@ const collegeDetails = async function(req,res){
               return
           }
       }
+      
 
 
       /// Check for value given in queryParam

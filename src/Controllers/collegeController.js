@@ -3,19 +3,20 @@ const internModel = require("../models/internModel")
 const urlRegex =
 /(https?:\/\/.*\.(?:png|jpg))/;
 
+//================Create College API===============================================//
 const CreateCollege = async function (req, res) {
   try {
   
     let { name, fullName, logoLink } = req.body;
     let data = req.body;
 
-//============check data in req.body====================//
+//============Check Data in Req.Body====================//
     if (Object.keys(req.body).length == 0) {
       res.status(400)
         .send({ status: false, msg: "Please provide College details" });
     }
 
-//============if Data is not present ====================//
+//==============Name Validation==========================//
 console.log(name)
 
     if (!name) {
@@ -27,8 +28,6 @@ console.log(name)
       res.status(400).send({ status: false, msg: "Invalid Name" });
       return
     }
-
-//=============cheaking validName=====================//
     let validName = await collegeModel.find({ name: data.name });
     console.log(validName);
 
@@ -39,7 +38,7 @@ console.log(name)
       return;
     }
 
-    //=============Data is present or not=====================//
+    //=============FullName Validation=====================//
     if (!fullName) {
       res.status(400).send({ status: false, msg: "Please provide fullName" });
       return
@@ -50,7 +49,7 @@ console.log(name)
     }
 
 
-
+   //===============LogoLink Validation==========================//
     if (!logoLink) {
       res.status(400).send({ status: false, msg: "Please provide logoLink" });
       return
@@ -61,14 +60,9 @@ console.log(name)
     }
     logoLink=logoLink.trim()
     if(!urlRegex.test(logoLink)){
-      res.status(400).send({status:false, msg:"Ivalid logoLink"})
+      res.status(400).send({status:false, msg:"Invalid logoLink"})
       return
     }
-
-    //===============Checking value of string=================//
-   
-   
-  
     //====================CreateCollege========================//
     let savedata = await collegeModel.create(data);
     res.status(201).send({ status: true, data: savedata });
@@ -77,7 +71,7 @@ console.log(name)
   }
 };
 
-
+//==================================College Details API==========================================//
 
 const collegeDetails = async function(req,res){
   try{

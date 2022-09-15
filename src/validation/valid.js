@@ -1,4 +1,4 @@
-const internModel = require("../model(S)/internModel");
+const internModel = require("../models/internModel");
 
 const internValidation = async (req, res, next) => {
   try {
@@ -20,7 +20,7 @@ const internValidation = async (req, res, next) => {
       return res.status(400).send({ status: false, msg: "Please Insert Your Name" });
     }
 
-    if (typeof name !== "string") {
+    if (typeof name !== "string" || name.trim().length==0) {
       return res
         .status(400)
         .send({ status: false, msg: "Please Insert valid name" });
@@ -31,6 +31,18 @@ const internValidation = async (req, res, next) => {
       return res
         .status(400)
         .send({ status: false, msg: "Please Insert E-mailId" });
+
+    if (typeof email !== "string" || name.trim().length==0 )
+      return res
+        .status(400)
+        .send({ status: false, msg: "Please Input Correct email" });
+
+    //---------------------------Email Validation Thorugh REGEX--------------------------------------------------------------------------------- 
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email))
+      return res.status(400).send({ status: false, msg: "Invalid Email Id" });
+
+    
  //------------------------DB call for Email ---------------------------------------------------------------------------------------      
 
     let emaiId = await internModel.findOne({ email: data.email });
@@ -43,15 +55,6 @@ const internValidation = async (req, res, next) => {
           msg: " OH My Gosh !! This E-mail is Allready Exists, Please Input another E-mailId",
         });
 
-    if (typeof email !== "string")
-      return res
-        .status(400)
-        .send({ status: false, msg: "Please Input Correct email" });
-
-//---------------------------Email Validation Thorugh REGEX--------------------------------------------------------------------------------- 
-
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(data.email))
-      return res.status(400).send({ status: false, msg: "Invalid Email Id" });
 
  //==================================Mobile Validation==============================================================================     
 
@@ -64,6 +67,13 @@ const internValidation = async (req, res, next) => {
         .status(400)
         .send({ status: false, msg: "Please Input Valid Number" });
 
+ //------------------------------Mobile Validation Through REGEX ------------------------------------------------------------------------
+
+     if (!/^[6-9]\d{9}$/.test(data.mobile))
+     return res
+       .status(400)
+       .send({ status: false, msg: "Wrong Mobile Number" });
+
  //-------------------------DB Call for Mobile Number-------------------------------------------------------------------------------------       
 
     let validMobileNo = await internModel.findOne({ mobile: data.mobile });
@@ -72,20 +82,18 @@ const internValidation = async (req, res, next) => {
         .status(403)
         .send({ status: false, msg: "DAMN !! BRO, This Mobile Number Allready Exists" });
 
-    //------------------------------Mobile Validation Through REGEX ------------------------------------------------------------------------
+   
 
-    if (!/^(\+\d{1,3}[- ]?)?\d{10}$/.test(data.mobile))
-      return res
-        .status(400)
-        .send({ status: false, msg: "Wrong Mobile Number" });
 //============== College Name validation===========================================================================================
-    if (!collegeName)
+    
+  if (!collegeName)
       return res
         .status(400)
         .send({ status: false, msg: "Please Input collegeName" });
 
     next();
-  } catch (err) {
+  } 
+  catch (err) {
     res.status(500).send({ status: false, msg: err.message });
   }
 };

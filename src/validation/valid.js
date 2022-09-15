@@ -78,7 +78,7 @@ const internValidation = async (req, res, next) => {
       return res
         .status(400)
         .send({ status: false, msg: "Wrong Mobile Number" });
-
+//============== College Name validation===========================================================================================
     if (!collegeName)
       return res
         .status(400)

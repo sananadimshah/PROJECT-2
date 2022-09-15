@@ -31,7 +31,13 @@ const CreateCollege = async function (req, res) {
     if (!logoLink) {
       res.status(400).send({ status: false, msg: "Please provide logoLink" });
     }
-    //===============Checking valid or not=================//
+    if(!isValidUrl(req.body.logoLink.trim())) {
+      return res
+        .status(400)
+        .send({ status: false, msg: "logoLink is invalid" });
+    }
+
+    //===============Checking value of string=================//
     if (typeof name !== "string" || name.length == 0) {
       res.status(400).send({ staues: false, msg: "Invalid Name" });
     }
@@ -51,3 +57,4 @@ const CreateCollege = async function (req, res) {
 };
 
 module.exports = { CreateCollege };
+

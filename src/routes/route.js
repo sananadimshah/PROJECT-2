@@ -8,7 +8,7 @@ router.get("/test", function(req,res){
     res.send("Connected")
 })
 
-router.post("/functionup/colleges",collegeController.createCollege)
+router.post("/functionup/colleges",collegeController.CreateCollege)
 router.post("/functionup/interns",internController.createIntern)
 
 module.exports=router

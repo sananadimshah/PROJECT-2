@@ -1,4 +1,11 @@
-const collegeModel = require("../model(S)/CollageModel");
+const collegeModel = require("../model(S)/collegeModel")
+const isValidUrl = function (data) {
+  const urlRegex =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
+  return urlRegex.test(data);
+};
+
+
 
 const CreateCollege = async function (req, res) {
   try {
@@ -31,7 +38,13 @@ const CreateCollege = async function (req, res) {
     if (!logoLink) {
       res.status(400).send({ status: false, msg: "Please provide logoLink" });
     }
-    //===============Checking valid or not=================//
+    if(!isValidUrl(req.body.logoLink.trim())) {
+      return res
+        .status(400)
+        .send({ status: false, msg: "logoLink is invalid" });
+    }
+
+    //===============Checking value of string=================//
     if (typeof name !== "string" || name.length == 0) {
       res.status(400).send({ staues: false, msg: "Invalid Name" });
     }
@@ -41,6 +54,8 @@ const CreateCollege = async function (req, res) {
     if (typeof logoLink !== "string" || logoLink.length == 0) {
       res.status(400).send({ staues: false, msg: "Invalid logoLink" });
     }
+    
+
     //====================CreateCollege========================//
     let savedata = await collegeModel.create(data);
     res.status(201).send({ status: true, data: savedata });
@@ -50,3 +65,4 @@ const CreateCollege = async function (req, res) {
 };
 
 module.exports = { CreateCollege };
+

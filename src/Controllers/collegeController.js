@@ -2,20 +2,21 @@ const collegeModel = require("../models/collegeModel");
 const internModel = require("../models/internModel")
 const urlRegex = /(https?:\/\/.*\.(?:png|jpg))/;
 
+//================Create College API===============================================//
 const CreateCollege = async function (req, res) {
   try {
   
     let { name, fullName, logoLink } = req.body;
     let data = req.body;
 
-//============check data in req.body====================//
+//============Check Data in Req.Body====================//
     if (Object.keys(req.body).length == 0) {
       res.status(400)
         .send({ status: false, msg: "Please provide College details" });
         return
     }
 
-//============validation on name ====================//
+//==============Name Validation==========================//
 
     if (!name) {
       res.status(400).send({ status: false, msg: "Please provide Name" });
@@ -26,9 +27,7 @@ const CreateCollege = async function (req, res) {
       res.status(400).send({ status: false, msg:  "Name must contain valid data / String only" });
       return
     }
-
-//=============check for name is already taken or not=====================//
-    let validName = await collegeModel.find({ name });    /// object Shorthand property
+    let validName = await collegeModel.find({ name });   /// object ShortHand property
 
     if (validName.length !== 0) {
       res
@@ -59,7 +58,7 @@ const CreateCollege = async function (req, res) {
     }
     logoLink=logoLink.trim()
     if(!urlRegex.test(logoLink)){
-      res.status(400).send({status:false, msg:"Ivalid logoLink"})
+      res.status(400).send({status:false, msg:"Invalid logoLink"})
       return
     }
   
@@ -74,7 +73,7 @@ const CreateCollege = async function (req, res) {
   }
 };
 
-
+//==================================College Details API==========================================//
 
 const collegeDetails = async function(req,res){
   try{

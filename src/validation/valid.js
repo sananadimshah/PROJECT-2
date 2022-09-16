@@ -20,7 +20,7 @@ const internValidation = async (req, res, next) => {
       return res.status(400).send({ status: false, msg: "Please Insert Your Name" });
     }
 
-    if (typeof name !== "string" || name.trim().length==0) {
+    if (typeof (name)!== "string" || name.trim().length==0) {
       return res
         .status(400)
         .send({ status: false, msg: "Name must contain valid data / String only" });

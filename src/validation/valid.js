@@ -32,14 +32,14 @@ const internValidation = async (req, res, next) => {
         .status(400)
         .send({ status: false, msg: "Please Insert E-mailId" });
 
-    if (typeof email !== "string" || name.trim().length==0 )
+    if (typeof email !== "string" || email.trim().length==0 )
       return res
         .status(400)
         .send({ status: false, msg:  "email must contain valid data / String only" });
 
     //---------------------------Email Validation Thorugh REGEX--------------------------------------------------------------------------------- 
-
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email))
+    email=email.trim()
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
       return res.status(400).send({ status: false, msg: "Invalid Email Id" });
 
 
@@ -57,7 +57,7 @@ const internValidation = async (req, res, next) => {
 
  //------------------------------Mobile Validation Through REGEX ------------------------------------------------------------------------
 
-     if (!/^[6-9]\d{9}$/.test(data.mobile))
+     if (!/^[6-9]\d{9}$/.test(mobile))
      return res
        .status(400)
        .send({ status: false, msg: "Wrong Mobile Number" });
